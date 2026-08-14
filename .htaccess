@@ -1,0 +1,136 @@
+# ============================================================================
+#  strandbad-gerlebogk.de — Apache-Konfiguration
+# ============================================================================
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # --- Kanonische Domain: https + ohne www ---------------------------------
+  # Festgelegte Variante: https://strandbad-gerlebogk.de (ohne www).
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://strandbad-gerlebogk.de%{REQUEST_URI} [R=301,L]
+
+  RewriteCond %{HTTP_HOST} ^www\.strandbad-gerlebogk\.de$ [NC]
+  RewriteRule ^ https://strandbad-gerlebogk.de%{REQUEST_URI} [R=301,L]
+
+  # --- Verzeichnis-URLs mit Schrägstrich erzwingen -------------------------
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ /$1/ [R=301,L]
+</IfModule>
+
+# ----------------------------------------------------------------------------
+#  Sicherheits-Header
+# ----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+
+  # Die Seite lädt ausschließlich eigene Dateien und enthält kein JavaScript.
+  # Deshalb ist die Policy so eng wie sie sein kann:
+  #   script-src 'none'      – es gibt kein einziges Skript (JSON-LD-Blöcke
+  #                            sind type="application/ld+json", kein JS und
+  #                            von script-src nicht betroffen)
+  #   style-src 'self'       – kein 'unsafe-inline' nötig, es gibt keine
+  #                            style-Attribute im HTML
+  #   form-action 'none'     – die Seite hat kein Formular
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
+
+  # HSTS erst aktivieren, wenn https sicher auf allen Hosts läuft.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "DENY"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+  Header always set Cross-Origin-Resource-Policy "same-origin"
+
+  # Serverkennung nicht ausplaudern
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+</IfModule>
+
+# ----------------------------------------------------------------------------
+#  Caching
+# ----------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Bilder und Schriften sind versioniert bzw. wechseln praktisch nie
+  ExpiresByType image/webp              "access plus 1 year"
+  ExpiresByType image/avif              "access plus 1 year"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType font/woff2              "access plus 1 year"
+
+  # CSS mittelfristig – bei Änderungen Dateinamen anpassen oder Frist senken
+  ExpiresByType text/css                "access plus 1 month"
+
+  # HTML nie lange cachen, sonst sehen Gäste veraltete Preise/Öffnungszeiten
+  ExpiresByType text/html               "access plus 0 seconds"
+
+  ExpiresByType application/xml         "access plus 1 day"
+  ExpiresByType text/plain              "access plus 1 day"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(webp|avif|jpg|jpeg|png|svg|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.css$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ----------------------------------------------------------------------------
+#  Kompression
+# ----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/xml application/ld+json image/svg+xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml
+  AddOutputFilterByType BROTLI_COMPRESS application/xml application/ld+json image/svg+xml
+</IfModule>
+
+# ----------------------------------------------------------------------------
+#  MIME-Typen (falls der Host sie nicht kennt)
+# ----------------------------------------------------------------------------
+<IfModule mod_mime.c>
+  AddType image/webp        .webp
+  AddType image/avif        .avif
+  AddType font/woff2        .woff2
+  AddType application/ld+json .jsonld
+</IfModule>
+
+# ----------------------------------------------------------------------------
+#  Zugriffsschutz
+# ----------------------------------------------------------------------------
+# Quellbilder, Skripte und Projektdateien gehören nicht ins Web.
+RedirectMatch 404 ^/assets/img/src/
+RedirectMatch 404 ^/tools/
+RedirectMatch 404 ^/\.claude/
+
+# Schlüssel, Zertifikate und Sicherungen niemals ausliefern.
+<FilesMatch "\.(key|pem|crt|csr|p12|pfx|env|bak|sql|log|md|sh)$">
+  Require all denied
+</FilesMatch>
+
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes
+ServerSignature Off
+
+# ----------------------------------------------------------------------------
+#  Fehlerseiten
+# ----------------------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+DirectoryIndex index.html

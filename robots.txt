@@ -1,0 +1,8 @@
+# robots.txt für https://strandbad-gerlebogk.de
+
+User-agent: *
+Allow: /
+Disallow: /assets/img/src/
+Disallow: /tools/
+
+Sitemap: https://strandbad-gerlebogk.de/sitemap.xml

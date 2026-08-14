@@ -1,0 +1,32 @@
+# Header für Cloudflare Pages.
+# Cloudflare Pages liest diese Datei; die .htaccess wird dort NICHT ausgewertet.
+# (Gleiche Syntax gilt auch bei Netlify.)
+#
+# Hinweis: script-src 'none' blockiert die eingebetteten JSON-LD-Blöcke
+# (type="application/ld+json") nicht - das sind keine ausführbaren Skripte,
+# CSP script-src betrifft sie nicht.
+
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/assets/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/css/*
+  Cache-Control: public, max-age=2592000
+
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+/
+  Cache-Control: no-cache, must-revalidate

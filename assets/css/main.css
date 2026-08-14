@@ -1,0 +1,751 @@
+/* ==========================================================================
+   Strandbad & Campingplatz Gerlebogk — strandbad-gerlebogk.de
+   Schwesterseite zu party-company.de: gleiche Bausteine, gleiche Typografie,
+   gleiche Akzentfarbe — aber Tag statt Nacht. Ein Stylesheet, keine
+   Imports, keine externen Requests.
+   ========================================================================== */
+
+/* --- Schriften (selbst gehostet, identisch zur Partycompany) ------------ */
+
+@font-face {
+  font-family: "Alfa Slab One";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/alfa-slab-one-latin-400.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+/* Fließtext läuft bewusst im System-Font-Stack: 0 Requests, 0 Byte. */
+
+/* --- Marken-Token ---------------------------------------------------------
+   Farbwerte wörtlich aus party-company.de/assets/css/main.css übernommen
+   (--orange, --nacht, --wasser = dortiges --strandbad), nicht neu erfunden.
+   --weiss und --sand sind das helle Gegenstück zu deren --nacht/--tiefe.
+   ------------------------------------------------------------------------- */
+
+:root {
+  --weiss: #fdfdfd;        /* Grundfläche, dominant */
+  --sand: #f5efe2;         /* zweite helle Fläche, trennt Sektionen ohne Linie */
+  --orange: #f07a16;       /* NUR CTA, Hover, Marker, Signature */
+  --nacht: #0d1729;        /* Fließtext, Fußzeile, Hero-Panel (Navy-Rolle) */
+  --wasser: #3fa8c9;       /* Wasserton: sekundäre Akzente, Rückverweis auf Partycompany */
+
+  --nacht-leise: rgba(13, 23, 41, 0.62);
+  --nacht-linie: rgba(13, 23, 41, 0.14);
+
+  --display: "Alfa Slab One", Georgia, "Times New Roman", serif;
+  --body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  --wrap: 68rem;
+  --gap: clamp(1.25rem, 4vw, 2.5rem);
+  --radius: 4px;
+
+  /* Signature: Wellenkante. Drei ineinander verschlungene Wellenlinien,
+     Pendant zur Lichterkette der Partycompany — anderes Motiv, gleiche Rolle.
+     Kachel ist genau eine Wellenperiode breit (160px), dadurch mathematisch
+     nahtlos wiederholbar — kein Foto/KI-Bild, handgeschriebenes SVG. */
+  --wellen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='64' viewBox='0 0 160 64'%3E%3Cpath d='M0 16 Q40 8 80 16 Q120 24 160 16' fill='none' stroke='%230D1729' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M0 32 Q40 40 80 32 Q120 24 160 32' fill='none' stroke='%23F07A16' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M0 48 Q40 40 80 48 Q120 56 160 48' fill='none' stroke='%230D1729' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+/* --- Reset / Grundlagen -------------------------------------------------- */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--weiss);
+  color: var(--nacht);
+  font-family: var(--body);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 1.06;
+  margin: 0 0 0.6em;
+  letter-spacing: 0.005em;
+  /* Deutsche Komposita wie "Campingplatz" oder "Öffnungszeiten" passen bei
+     320px in keine Zeile. hyphens nutzt das lang="de" des Dokuments. */
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+h1 { font-size: clamp(2.1rem, 1.3rem + 4vw, 4rem); }
+h2 { font-size: clamp(1.6rem, 1.2rem + 1.9vw, 2.5rem); }
+h3 { font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem); }
+h4 { font-size: 1.05rem; font-family: var(--body); font-weight: 600; }
+
+p { margin: 0 0 1.1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--nacht); text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a:hover { color: var(--orange); }
+
+ul, ol { margin: 0 0 1.1em; padding-left: 1.25rem; }
+li { margin-bottom: 0.4em; }
+
+strong, b { font-weight: 600; }
+
+:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Nach oben statt nach links wegschieben – ein "left: -9999px" vergrößert in
+   manchen Browsern die Scrollbreite des Dokuments. */
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  transform: translateY(-130%);
+  background: var(--orange);
+  color: #21160a;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.skip-link:focus { transform: translateY(0); }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- Raster -------------------------------------------------------------- */
+
+.wrap {
+  width: min(100% - 2 * var(--gap), var(--wrap));
+  margin-inline: auto;
+}
+
+.section { padding-block: clamp(3rem, 8vw, 5.5rem); }
+.section--sand { background: var(--sand); }
+.section--nacht { background: var(--nacht); color: var(--weiss); }
+.section--nacht a { color: #bcd9e3; }
+.section--nacht a:hover { color: #fff; }
+.section--schmal { padding-block: clamp(2rem, 5vw, 3rem); }
+
+.lede {
+  font-size: clamp(1.06rem, 1rem + 0.4vw, 1.3rem);
+  color: var(--nacht-leise);
+  max-width: 46ch;
+}
+.section--nacht .lede { color: rgba(253, 253, 253, 0.72); }
+
+.eyebrow {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a4400;
+  margin: 0 0 0.9rem;
+}
+.section--nacht .eyebrow { color: var(--wasser); }
+
+/* --- Signature: Wellenkante ------------------------------------------------
+   Drei verschlungene Wellenlinien als wiederkehrender Sektionstrenner,
+   dieselbe Code-Rolle wie die Girlande der Partycompany, eigenes Motiv.
+   Handgeschriebenes SVG, austauschbar sobald finale Grafik vorliegt, siehe
+   README. Kachel ist 160×64 (Seitenverhältnis 2,5:1) — background-size MUSS
+   dieses Verhältnis einhalten, sonst verzerrt die Wiederholung (siehe Notiz
+   zur ursprünglichen Segelkante-Version im Git-Verlauf/README).
+   ------------------------------------------------------------------------- */
+
+.wellen {
+  height: 32px;
+  background-image: var(--wellen);
+  background-repeat: repeat-x;
+  background-position: left top;
+  background-size: 80px 32px;
+  border: 0;
+  margin: 0;
+}
+.wellen--kopf {
+  height: 48px;
+  background-size: 120px 48px;
+  margin-bottom: -24px;
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wellen { animation: wiegen 7s ease-in-out infinite; transform-origin: center; }
+  @keyframes wiegen {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.06); }
+  }
+}
+
+/* --- Kopfzeile ----------------------------------------------------------- */
+
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(253, 253, 253, 0.94);
+  border-bottom: 1px solid var(--nacht-linie);
+  backdrop-filter: blur(8px);
+}
+
+.kopf__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.45rem;
+}
+
+.marke {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  text-decoration: none;
+  color: var(--nacht);
+  flex: 0 0 auto;
+}
+.marke img {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--sand);
+  flex: 0 0 auto;
+}
+.marke__name {
+  font-family: var(--display);
+  font-size: 1.02rem;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.marke__zusatz {
+  display: block;
+  font-family: var(--body);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--nacht-leise);
+}
+
+.nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+  flex-wrap: wrap;
+}
+.nav a {
+  color: var(--nacht);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.nav a:hover,
+.nav a[aria-current="page"] { color: var(--orange); }
+.nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--orange); text-decoration-thickness: 2px; text-underline-offset: 0.35em; }
+
+/* --- Schaltflächen ------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0.95rem 1.6rem;
+  border-radius: var(--radius);
+  border: 2px solid transparent;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.12s ease, background-color 0.12s ease, color 0.12s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+
+/* Orange ist der Anfrage-Knopf. Sonst nichts — auf Weiß liegt #F07A16
+   unter 4,5:1 Kontrast, deshalb nie als Text, immer als Fläche. */
+.btn--anfrage {
+  background: var(--orange);
+  color: #21160a;
+}
+.btn--anfrage:hover { background: #ff9a3d; color: #21160a; }
+
+.btn--gross { font-size: 1.1rem; padding: 1.15rem 2rem; }
+
+.btn--leise {
+  background: transparent;
+  color: var(--nacht);
+  border-color: var(--nacht-linie);
+}
+.btn--leise:hover { color: var(--orange); border-color: var(--orange); }
+
+.btn--party { background: var(--nacht); color: var(--weiss); }
+.btn--party:hover { background: #1b2c47; color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover { transform: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* --- Hero -----------------------------------------------------------------
+   Gespiegeltes Prinzip zur Partycompany: dort dunkler Hintergrund + helles
+   Sand-Panel, hier heller Hintergrund + dunkles Navy-Panel. Gleicher
+   Baustein (Foto + Kontrastpanel, kein Text auf dem Foto), invertierte
+   Farbrichtung — Tag statt Nacht.
+   ------------------------------------------------------------------------- */
+
+.hero { background: var(--weiss); position: relative; }
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+  padding-block: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.hero__media {
+  grid-column: 6 / -1;
+  grid-row: 1;
+  position: relative;
+}
+.hero__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.hero__panel {
+  grid-column: 1 / 7;
+  grid-row: 1;
+  z-index: 2;
+  background: var(--nacht);
+  color: var(--weiss);
+  padding: clamp(1.5rem, 3.5vw, 2.6rem);
+  border-radius: var(--radius);
+  box-shadow: 0 24px 60px -30px rgba(13, 23, 41, 0.45);
+}
+
+.hero__kicker {
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--wasser);
+  margin: 0 0 0.8rem;
+}
+.hero__titel { margin-bottom: 0.35em; color: var(--weiss); }
+.hero__unter {
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.4rem);
+  color: rgba(253, 253, 253, 0.82);
+  margin: 0 0 1.3rem;
+}
+.hero__zeile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  font-weight: 600;
+  color: rgba(253, 253, 253, 0.82);
+  margin: 0 0 1.6rem;
+  padding-top: 1.1rem;
+  border-top: 2px solid rgba(253, 253, 253, 0.14);
+}
+.hero__aktion { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+
+/* --- Faktenabsatz (für Suchmaschinen und KI-Antworten) ------------------- */
+
+.fakten {
+  border-left: 3px solid var(--orange);
+  padding-left: clamp(1rem, 2.5vw, 1.6rem);
+  max-width: 62ch;
+  font-size: 1.06rem;
+}
+.fakten p { margin-bottom: 0.9em; }
+.fakten p:last-child { margin-bottom: 0; }
+
+/* --- Eckdaten ------------------------------------------------------------ */
+
+.eckdaten {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 0;
+  border-top: 1px solid var(--nacht-linie);
+}
+.eckdaten > div {
+  padding: 1rem 1.2rem 1rem 0;
+  border-bottom: 1px solid var(--nacht-linie);
+}
+.eckdaten dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--nacht-leise);
+  margin-bottom: 0.25rem;
+}
+.eckdaten dd {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.eckdaten dd small {
+  display: block;
+  font-family: var(--body);
+  font-size: 0.85rem;
+  color: var(--nacht-leise);
+  margin-top: 0.2rem;
+}
+
+/* Tabellenvariante (Preise) */
+.datentabelle {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.datentabelle th,
+.datentabelle td {
+  padding: 0.85rem 1rem 0.85rem 0;
+  border-bottom: 1px solid var(--nacht-linie);
+  vertical-align: top;
+}
+.datentabelle th {
+  font-weight: 600;
+  color: var(--nacht-leise);
+  width: 46%;
+  font-size: 0.95rem;
+}
+.datentabelle td { font-weight: 600; }
+.tabelle-scroll { overflow-x: auto; }
+
+/* --- Leistungen als Speisekarte ------------------------------------------ */
+
+.karte { list-style: none; margin: 0; padding: 0; }
+.karte > li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--nacht-linie);
+  margin: 0;
+}
+.karte__name { font-family: var(--display); font-size: 1.15rem; flex: 0 1 auto; }
+.karte__fuellung {
+  flex: 1 1 auto;
+  border-bottom: 2px dotted var(--nacht-linie);
+  transform: translateY(-0.35em);
+  min-width: 1.5rem;
+}
+.karte__hinweis { flex: 0 0 auto; color: var(--nacht-leise); font-size: 0.9rem; }
+
+/* --- Wegweiser (drei Einstiege) -------------------------------------------
+   Bewusst kein Card-Grid mit runden Ecken und Schatten: eine schmale Reihe
+   mit vertikalen Trennlinien, wie ein Wegweiser am Eingang.
+   ------------------------------------------------------------------------- */
+
+.wegweiser {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--nacht-linie);
+  border-left: 1px solid var(--nacht-linie);
+}
+.wegweiser__eintrag {
+  border-right: 1px solid var(--nacht-linie);
+  border-bottom: 1px solid var(--nacht-linie);
+  padding: 1.5rem clamp(1rem, 3vw, 1.75rem) 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.wegweiser__bild {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+.wegweiser__bild img { width: 100%; height: 100%; object-fit: cover; }
+.wegweiser__eintrag h3 { margin-bottom: 0.35rem; }
+.wegweiser__eintrag p { color: var(--nacht-leise); font-size: 0.95rem; margin-bottom: 0.6rem; }
+.wegweiser__pfeil { font-weight: 600; color: var(--nacht); }
+.wegweiser__eintrag:hover .wegweiser__pfeil { color: var(--orange); }
+.wegweiser__eintrag:hover h3 { color: var(--orange); }
+
+@media (max-width: 40rem) {
+  .wegweiser { grid-template-columns: 1fr; }
+}
+
+/* --- Zweispalter --------------------------------------------------------- */
+
+.duo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.75rem, 5vw, 3.5rem);
+  align-items: center;
+}
+.duo--medialinks > .duo__media { order: -1; }
+.duo__media img {
+  width: 100%;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+.bild--hoch img { aspect-ratio: 4 / 5; }
+.bild--breit img { aspect-ratio: 3 / 2; }
+.bild--quadrat img { aspect-ratio: 1 / 1; }
+
+.bildnachweis {
+  font-size: 0.8rem;
+  color: var(--nacht-leise);
+  margin-top: 0.6rem;
+}
+
+/* --- Bildstrecke ----------------------------------------------------------- */
+
+.bildstrecke {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1.25rem;
+}
+.bildstrecke img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+.bildstrecke > div { aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius); }
+
+/* --- Karten (Kacheln) ----------------------------------------------------- */
+
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: 1.25rem;
+}
+.kachel {
+  background: var(--sand);
+  border: 1px solid var(--nacht-linie);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+.section--sand .kachel { background: var(--weiss); }
+.kachel h3 { margin-bottom: 0.4rem; }
+.kachel p { color: var(--nacht-leise); font-size: 0.98rem; }
+
+/* --- FAQ ------------------------------------------------------------------- */
+
+.faq { margin: 0; }
+.faq > div { border-bottom: 1px solid var(--nacht-linie); padding: 1.3rem 0; }
+.faq dt {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+.faq dd { margin: 0; color: var(--nacht-leise); max-width: 68ch; }
+
+/* --- Anfahrtsskizze -------------------------------------------------------- */
+
+.skizze {
+  background: var(--sand);
+  border: 1px solid var(--nacht-linie);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.skizze img { width: 100%; height: auto; display: block; border-radius: var(--radius); }
+
+/* --- Brotkrumen ------------------------------------------------------------- */
+
+.brotkrumen { font-size: 0.88rem; color: var(--nacht-leise); padding-block: 1rem 0; }
+.brotkrumen ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; }
+.brotkrumen li { margin: 0; }
+.brotkrumen li + li::before { content: "›"; margin-right: 0.5rem; color: var(--nacht-linie); }
+.brotkrumen a { color: var(--nacht-leise); }
+
+/* --- Anfrageband (wiederholter CTA) ---------------------------------------- */
+
+.anfrageband {
+  background: var(--nacht);
+  color: var(--weiss);
+  padding-block: clamp(2rem, 5vw, 3rem);
+}
+.anfrageband__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+.anfrageband p { margin: 0; color: rgba(253, 253, 253, 0.78); }
+.anfrageband strong { color: var(--weiss); font-family: var(--display); font-weight: 400; font-size: 1.25rem; display: block; }
+
+/* --- Kontaktliste ------------------------------------------------------------ */
+
+.kontaktliste { display: grid; gap: 1.4rem; margin: 0; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.kontaktliste dt {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--nacht-leise);
+  margin-bottom: 0.3rem;
+}
+.kontaktliste dd { margin: 0; font-size: 1.1rem; font-weight: 600; }
+
+/* --- Rechtstexte --------------------------------------------------------- */
+
+.prosa { max-width: 62ch; }
+.prosa h2 { margin-top: 2.2rem; }
+.prosa h3 { margin-top: 1.8rem; }
+.prosa ul { padding-left: 1.1rem; }
+
+.todo {
+  display: inline-block;
+  background: rgba(240, 122, 22, 0.12);
+  border: 1px dashed var(--orange);
+  color: #8a4400;
+  padding: 0.1rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* --- Baderegel-Hinweis (sichtbar, nicht kleingedruckt) -------------------- */
+
+.hinweis {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--sand);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+}
+
+/* --- Fußzeile -------------------------------------------------------------- */
+
+.fuss {
+  background: var(--nacht);
+  color: rgba(253, 253, 253, 0.82);
+  border-top: 1px solid var(--nacht-linie);
+  padding-block: clamp(2.5rem, 6vw, 3.5rem);
+  font-size: 0.94rem;
+}
+.fuss__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 2rem;
+}
+.fuss h2 {
+  font-family: var(--body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(253, 253, 253, 0.6);
+  margin-bottom: 0.9rem;
+}
+.fuss ul { list-style: none; margin: 0; padding: 0; }
+.fuss li { margin-bottom: 0.5rem; }
+.fuss a { color: var(--weiss); text-decoration: none; }
+.fuss a:hover { color: var(--wasser); text-decoration: underline; }
+.fuss__unten {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(253, 253, 253, 0.14);
+  color: rgba(253, 253, 253, 0.6);
+  font-size: 0.86rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: space-between;
+}
+.fuss__unten--schlicht { margin-top: 0; border-top: 0; padding-top: 0; }
+
+/* --- Hilfsklassen ----------------------------------------------------------
+   Bewusst als Klassen statt als style-Attribute: nur so kommt die Seite ohne
+   'unsafe-inline' in der Content-Security-Policy aus.
+   ------------------------------------------------------------------------- */
+
+.mt-s  { margin-top: 1.2rem; }
+.mt-m  { margin-top: 1.6rem; }
+.mt-l  { margin-top: 2rem; }
+.mt-xl { margin-top: 2.5rem; }
+
+.leise { color: var(--nacht-leise); }
+.klein { font-size: 0.92rem; }
+.eng   { max-width: 52ch; }
+
+.knopfreihe { display: flex; gap: 0.7rem; flex-wrap: wrap; align-items: center; }
+.krumen-abstand { padding-top: 3rem; }
+
+/* ==========================================================================
+   Umbrüche
+   ========================================================================== */
+
+@media (max-width: 56rem) {
+  .wellen--kopf { margin-bottom: 0; }
+
+  .hero__grid { grid-template-columns: 1fr; padding-block: 0 clamp(2rem, 6vw, 3rem); }
+  .hero__media { grid-column: 1; grid-row: 1; }
+  .hero__media img { aspect-ratio: 4 / 3; border-radius: 0; }
+  .hero__panel {
+    grid-column: 1;
+    grid-row: 2;
+    margin-inline: clamp(0rem, 2vw, 1rem);
+    margin-top: -2.5rem;
+  }
+  .duo { grid-template-columns: 1fr; }
+  .duo--medialinks > .duo__media { order: 0; }
+  .datentabelle th { width: 50%; }
+}
+
+@media (max-width: 40rem) {
+  .kopf { position: static; }
+  .kopf__inner { flex-wrap: wrap; row-gap: 0.6rem; }
+  .nav { margin-left: 0; width: 100%; gap: 0.85rem 1.1rem; font-size: 0.92rem; }
+  .marke img { width: 64px; height: 64px; }
+  .marke { min-width: 0; }
+  .marke__name { min-width: 0; }
+  .marke__zusatz { font-size: 0.62rem; letter-spacing: 0.1em; }
+  .anfrageband__inner { flex-direction: column; align-items: flex-start; }
+  .eckdaten > div { padding-right: 0; }
+}
+
+@media (max-width: 22.5rem) {
+  :root { --gap: 1rem; }
+  .hero__panel { padding: 1.15rem; }
+  .btn { padding: 0.85rem 1.15rem; font-size: 0.95rem; }
+  .marke__zusatz { display: none; }
+  .marke img { width: 56px; height: 56px; }
+  .kopf__inner { gap: 0.75rem; }
+}
+
+@media print {
+  .kopf, .wellen, .anfrageband, .btn { display: none; }
+  body { background: #fff; color: #000; }
+}

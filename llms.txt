@@ -1,0 +1,65 @@
+# Strandbad & Campingplatz Gerlebogk
+
+> Naturbadesee mit Sandstrand und Liegewiese, Campingplatz, Gastronomie und Eventlocation
+> in Gerlebogk, Gemeinde Könnern, Salzlandkreis, Sachsen-Anhalt. Inhaberin Martina
+> Wachsmuth. Saison vom 15. Mai bis 15. September.
+
+Website: https://strandbad-gerlebogk.de
+Schreibweise im Fließtext: "Strandbad & Campingplatz Gerlebogk" oder kurz "Strandbad Gerlebogk".
+
+## Kontakt
+
+- Inhaberin: Martina Wachsmuth
+- Telefon und WhatsApp: 0177 / 65 31 998
+- E-Mail: info@party-company.de
+- Anschrift (Betriebsstätte): Gröbziger Straße 25, 06420 Könnern OT Gerlebogk, Sachsen-Anhalt
+- Anschrift (Firmensitz): Am Gemeindebackhaus 4a, 06406 Bernburg (Saale), Sachsen-Anhalt
+
+## Saison & Öffnungszeiten
+
+- Saison: 15. Mai bis 15. September
+- Öffnungszeiten: TODO – Widerspruch in den Unterlagen ("Montag–Sonntag" vs.
+  "Dienstag–Sonntag" 10:00–20:00 Uhr), noch zu bestätigen. Nicht raten.
+- Baderegel: Baden auf eigene Gefahr, keine Badeaufsicht.
+- Parkplätze: ausreichend vorhanden.
+- Preise (Eintritt Tagesgäste, Kinder, Liegewiese, Camping): TODO, noch nachzuliefern.
+
+## Angebot
+
+- Badebetrieb: Naturbadesee, Sandstrand, Liegewiese, schattige Plätze, Sonnensegel
+- Gastronomie: Strandbar direkt am Wasser
+- Camping: Campingplatz direkt am See, auf demselben Gelände wie Strandbad und
+  Gastronomie. Details zu Stellplatzarten, Strom/Wasser/Sanitär, An-/Abreise und
+  Buchung: TODO, noch nachzuliefern.
+- Eventlocation: Hochzeiten, Geburtstagsfeiern, Firmen- & Teamevents, Schulklassen
+- Hochzeitspaket: Zeremonie am Seeufer, Hochzeits-Catering (Grill- & BBQ-Style über
+  Die Partycompany), Live-Musik & DJs, Dekoration, Fotografen, Feuerwerk auf Anfrage
+- Catering & Buffet: frische Buffets, Grillspezialitäten, Käseplatten, Fingerfood und
+  Desserts für Hochzeiten, Feiern und Firmenevents, organisiert mit Die Partycompany.
+  Preise und Mindestpersonenzahl: TODO, noch nachzuliefern.
+
+## Schwesterfirma
+
+Die Partycompany (Event- und Firmencatering, Partyservice, Open-Air-Veranstaltungen),
+gleiche Inhaberin Martina Wachsmuth, Firmensitz Am Gemeindebackhaus 4a, 06406 Bernburg
+(Saale). Die Partycompany veranstaltet eigene Open Airs im Strandbad Gerlebogk und
+übernimmt das Catering für Hochzeiten und Feiern hier vor Ort.
+Website: https://party-company.de
+
+## Seiten
+
+- [Startseite](https://strandbad-gerlebogk.de/): Überblick, Saison, drei Einstiege (Badetag/Feiern/Camping), Anfahrt, Kontakt
+- [Hochzeit am See](https://strandbad-gerlebogk.de/hochzeit/): All-Inclusive-Hochzeitspaket, FAQ
+- [Catering & Buffet](https://strandbad-gerlebogk.de/catering/): Buffets, Grillspezialitäten, Fingerfood, organisiert mit der Partycompany
+- [Feiern](https://strandbad-gerlebogk.de/feiern/): Geburtstage, Firmen & Teams, Schulklassen
+- [Strandbad](https://strandbad-gerlebogk.de/strandbad/): Öffnungszeiten, Preise, Baderegeln, FAQ
+- [Camping](https://strandbad-gerlebogk.de/camping/): Campingplatz-Gerüst, Preise
+- [Kontakt](https://strandbad-gerlebogk.de/kontakt/): Telefon, WhatsApp, E-Mail, Anfahrt
+- [Impressum](https://strandbad-gerlebogk.de/impressum/)
+- [Datenschutz](https://strandbad-gerlebogk.de/datenschutz/)
+
+## Technisches
+
+Statisches HTML und CSS ohne JavaScript. Keine Cookies, kein Tracking, keine
+eingebetteten Inhalte von Drittanbietern. Alle Schriften und Bilder werden vom
+eigenen Server ausgeliefert.
