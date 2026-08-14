@@ -31,8 +31,16 @@
   #                            von script-src nicht betroffen)
   #   style-src 'self'       – kein 'unsafe-inline' nötig, es gibt keine
   #                            style-Attribute im HTML
-  #   form-action 'none'     – die Seite hat kein Formular
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'none'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
+  #   form-action 'self'     – das Anfrageformular sendet nur an die eigene
+  #                            Cloudflare Pages Function (/api/anfrage),
+  #                            nie an fremde Domains
+  #
+  # WICHTIG: Das Anfrageformular braucht die Cloudflare Pages Function unter
+  # /functions/api/anfrage.js. Auf einem reinen Apache-Host (statt Cloudflare
+  # Pages) läuft diese Function NICHT – dafür müsste ein eigenes serverseitiges
+  # Äquivalent (PHP o.ä.) gebaut werden. Diese .htaccess dient nur als
+  # Referenz für Header/Rewrites, nicht als Formular-Backend-Ersatz.
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'none'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; form-action 'self'; frame-src 'none'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; manifest-src 'self'; upgrade-insecure-requests"
 
   # HSTS erst aktivieren, wenn https sicher auf allen Hosts läuft.
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"

@@ -100,6 +100,72 @@
 
   <div class="wellen" role="presentation"></div>
 
+  <section class="section section--sand" aria-labelledby="formular-titel">
+    <div class="wrap">
+      <p class="eyebrow">Anfrage senden</p>
+      <h2 id="formular-titel">Erzählt uns von eurem Vorhaben</h2>
+      <p class="lede">Formular ausfüllen, wir melden uns zurück. Alternativ erreicht ihr uns auch direkt per Telefon, WhatsApp oder E-Mail weiter unten.</p>
+
+      <form class="formular mt-l" action="/api/anfrage" method="post">
+        <div class="formular__grid">
+          <div class="feld">
+            <label for="f-name">Name *</label>
+            <input type="text" id="f-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="feld">
+            <label for="f-email">E-Mail *</label>
+            <input type="email" id="f-email" name="email" autocomplete="email" required>
+          </div>
+          <div class="feld">
+            <label for="f-telefon">Telefon</label>
+            <input type="tel" id="f-telefon" name="telefon" autocomplete="tel">
+          </div>
+          <div class="feld">
+            <label for="f-anlass">Art der Anfrage *</label>
+            <select id="f-anlass" name="anlass" required>
+              <option value="" selected disabled>Bitte wählen</option>
+              <option value="hochzeit">Hochzeit</option>
+              <option value="catering">Catering &amp; Buffet</option>
+              <option value="feiern">Feiern (Geburtstag, Firmen, Schulklasse)</option>
+              <option value="camping">Camping</option>
+              <option value="sonstiges">Sonstiges</option>
+            </select>
+          </div>
+          <div class="feld">
+            <label for="f-termin">Wunschtermin</label>
+            <input type="date" id="f-termin" name="termin">
+          </div>
+          <div class="feld">
+            <label for="f-personen">Anzahl Personen</label>
+            <input type="number" id="f-personen" name="personen" min="1" max="2000" inputmode="numeric">
+          </div>
+        </div>
+
+        <div class="feld feld--breit">
+          <label for="f-nachricht">Eure Nachricht *</label>
+          <textarea id="f-nachricht" name="nachricht" rows="5" required></textarea>
+        </div>
+
+        <div class="feld--hp" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="feld__checkbox">
+          <input type="checkbox" name="datenschutz" required>
+          <span>Ich habe die <a href="/datenschutz/">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Bearbeitung dieser Anfrage einverstanden. *</span>
+        </label>
+
+        <p class="mt-l">
+          <button class="btn btn--anfrage btn--gross" type="submit">Anfrage senden</button>
+        </p>
+        <p class="leise klein mt-s">* Pflichtfeld. Eure Daten werden ausschließlich zur Bearbeitung dieser Anfrage genutzt, siehe Datenschutzerklärung.</p>
+      </form>
+    </div>
+  </section>
+
+  <div class="wellen" role="presentation"></div>
+
   <section class="section" aria-labelledby="daten-titel">
     <div class="wrap">
       <p class="eyebrow">Direkt erreichbar</p>
@@ -123,8 +189,8 @@
         </div>
       </dl>
       <p class="mt-l leise">
-        Ein Kontaktformular gibt es hier bewusst nicht – schreibt uns einfach direkt per
-        E-Mail, WhatsApp oder ruft an. So werden keine Daten an Dritte weitergegeben.
+        Lieber direkt statt über das Formular? Schreibt uns einfach per E-Mail, WhatsApp
+        oder ruft an.
       </p>
     </div>
   </section>

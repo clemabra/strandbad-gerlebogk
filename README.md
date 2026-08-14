@@ -24,11 +24,18 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 ├── assets/img/                Ausgelieferte Bilder (WebP + JPG-Fallback)
 ├── assets/img/src/            Quellbilder (Originale + geraderichtete Zwischenstufen) – nicht ausliefern, siehe robots.txt/.htaccess
 ├── tools/                     Build-Skripte für den Bild-Workflow (siehe unten)
+├── functions/api/anfrage.js   Cloudflare Pages Function: Anfrageformular → E-Mail
+├── wrangler.toml               send_email-Binding für das Anfrageformular (siehe unten)
 ├── robots.txt, sitemap.xml, llms.txt
 ├── .htaccess                  Apache-Konfiguration (falls nicht Cloudflare Pages)
 ├── _headers                   Header-Konfiguration für Cloudflare Pages / Netlify
 └── _redirects                 Cloudflare Pages: 404 für /assets/img/src/ und /tools/
 ```
+
+Die Website selbst bleibt bei 0 Byte JavaScript im Browser und 0 externen Requests
+vom Client aus. Das Anfrageformular ist ein normales HTML-`<form>` (funktioniert
+ohne JavaScript), das serverseitig von einer Cloudflare Pages Function verarbeitet
+wird – die läuft bei Cloudflare selbst, nicht bei einem Drittanbieter.
 
 ## Deployment (Cloudflare Pages)
 
@@ -36,6 +43,35 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 2. Cloudflare Pages liest `_headers` automatisch aus – die `.htaccess` wird dort **nicht** ausgewertet, die liegt nur für alternative Apache-Hosts bereit.
 3. Domain `strandbad-gerlebogk.de` (TODO: Registrierung bestätigen) als Custom Domain in Cloudflare Pages hinterlegen, DNS auf Cloudflare zeigen lassen.
 4. Nach dem ersten Deploy: `sitemap.xml` bei der Google Search Console einreichen.
+
+## Anfrageformular einrichten (wichtig, sonst schlägt der Versand fehl)
+
+Das Formular auf `/kontakt/` sendet per POST an `/functions/api/anfrage.js`.
+Diese Cloudflare Pages Function verschickt die Anfrage per **Cloudflare Email
+Routing** – keine Datenbank, kein Drittanbieter, alles bleibt bei Cloudflare.
+Damit das funktioniert, sind einmalig ein paar Schritte im Cloudflare-Dashboard
+nötig (kann ich als Claude Code nicht selbst erledigen, da das Zugriff auf euer
+Cloudflare-Konto braucht):
+
+1. Domain `strandbad-gerlebogk.de` muss bei Cloudflare liegen (siehe Deployment oben).
+2. Im Dashboard: **Email** → **Email Routing** → aktivieren, falls noch nicht geschehen.
+3. Unter **Destination addresses**: `fischerparty@web.de` hinzufügen und über
+   den Bestätigungslink in der Mail verifizieren – ohne diese Verifizierung
+   kann Cloudflare dorthin keine E-Mails zustellen.
+4. Im Pages-Projekt: **Settings** → **Functions** → **Email Bindings** (falls
+   diese Oberfläche bei euch anders heißt oder die `wrangler.toml` im Repo-Root
+   automatisch gegriffen hat, ist dieser Schritt schon erledigt) → Binding mit
+   Name `ANFRAGE_MAIL` anlegen, Zieladresse `fischerparty@web.de`.
+5. Neu deployen, danach das Formular auf `/kontakt/` einmal testweise ausfüllen
+   und prüfen, ob die Mail bei fischerparty@web.de ankommt (ggf. Spam-Ordner
+   prüfen, gerade beim allerersten Testversand).
+
+**Wichtig:** Ich habe dieses Setup nicht live gegen ein echtes Cloudflare-Konto
+getestet, da ich dafür keinen Zugriff habe – die Function folgt Cloudflares
+dokumentiertem Vorgehen für `send_email`-Bindings, aber der erste Testversand
+nach dem Deploy ist Pflicht, nicht optional. Schlägt er fehl, zeigt das
+Formular eine Fehlerseite mit Ausweich-Kontaktdaten statt der Danke-Seite –
+schaut in dem Fall in die Function-Logs im Cloudflare-Dashboard.
 
 ## Bild-Workflow
 
@@ -188,6 +224,10 @@ einzuhalten). Manuell umzustellen, sobald die Saison (15.9.) endet:
   `catering-buffet` (aktuell 414×414, nur klein einsetzbar).
 - **Nächstes Event** (Termin/Line-up Partycompany-Open-Air): bewusst nicht
   eingebaut, siehe "Event-Teaser austauschen" oben.
+- **Anfrageformular-Versand testen**: Cloudflare Email Routing + send_email-
+  Binding einrichten (siehe "Anfrageformular einrichten" oben) und nach dem
+  Deploy einmal live durchtesten – von mir ungetestet, da kein Zugriff aufs
+  Cloudflare-Konto.
 
 Impressum, Kontakt und USt-IdNr. wurden **nicht** als TODO gelassen: Auftraggeber
 hat bestätigt, dass Strandbad dieselben Kontakt-/Impressumsdaten wie die
@@ -199,13 +239,18 @@ Straße 25, 06420 Könnern OT Gerlebogk.
 
 **Stack**
 - ✅ Reines HTML5 + CSS, kein Framework/Build-Tool/npm-Runtime-Paket.
-- ✅ 0 Byte JavaScript (kein `<script>` außer `type="application/ld+json"`,
-  das ist kein ausführbarer Code).
+- ✅ 0 Byte JavaScript im Browser (kein `<script>` außer `type="application/ld+json"`,
+  das ist kein ausführbarer Code). Das Anfrageformular ist ein normales
+  HTML-`<form>`, funktioniert ohne JavaScript; die Verarbeitung läuft
+  serverseitig in einer Cloudflare Pages Function (`functions/api/anfrage.js`),
+  nicht im Browser.
 - ✅ Keine externen Requests: kein CDN, keine Google Fonts, kein Maps-iFrame,
   keine Analytics/Social-Widgets. Geprüft per Grep über alle `<link>`/`<script>`/
   `<img>`-Quellen – alle zeigen auf `/…` oder sind reine `<a>`-Links (OSM,
   Google Maps als Linkziel, party-company.de, wa.me). Font selbst gehostet
-  (woff2, `font-display: swap`, preload).
+  (woff2, `font-display: swap`, preload). Das Anfrageformular sendet nur an
+  die eigene Cloudflare Pages Function (`form-action 'self'` in der CSP),
+  nicht an einen Formular-Drittanbieter.
 - ✅ Keine Cookies/localStorage/sessionStorage/Fingerprinting.
 
 **Bilder**

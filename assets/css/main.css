@@ -615,6 +615,62 @@ strong, b { font-weight: 600; }
 }
 .kontaktliste dd { margin: 0; font-size: 1.1rem; font-weight: 600; }
 
+/* --- Anfrageformular ------------------------------------------------------- */
+
+.formular { max-width: 44rem; }
+
+.formular__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.feld { display: flex; flex-direction: column; gap: 0.4rem; }
+.feld--breit { margin-bottom: 1.25rem; }
+
+.feld label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--nacht-leise);
+}
+
+.feld input,
+.feld select,
+.feld textarea {
+  font: inherit;
+  font-size: 1rem;
+  color: var(--nacht);
+  background: var(--weiss);
+  border: 2px solid var(--nacht-linie);
+  border-radius: var(--radius);
+  padding: 0.7rem 0.85rem;
+  width: 100%;
+}
+.section--sand .feld input,
+.section--sand .feld select,
+.section--sand .feld textarea { background: var(--weiss); }
+
+.feld input:focus-visible,
+.feld select:focus-visible,
+.feld textarea:focus-visible { outline: 3px solid var(--orange); outline-offset: 1px; }
+
+.feld textarea { resize: vertical; min-height: 8rem; }
+
+/* Honeypot gegen Spam-Bots: fürs Auge und für Screenreader unsichtbar,
+   Formularfeld bleibt im DOM, damit simple Bots es trotzdem ausfüllen. */
+.feld--hp { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.feld__checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--nacht-leise);
+  max-width: 48ch;
+}
+.feld__checkbox input { margin-top: 0.2rem; width: 1.1rem; height: 1.1rem; flex: 0 0 auto; }
+
 /* --- Rechtstexte --------------------------------------------------------- */
 
 .prosa { max-width: 62ch; }

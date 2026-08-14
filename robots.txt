@@ -4,5 +4,7 @@ User-agent: *
 Allow: /
 Disallow: /assets/img/src/
 Disallow: /tools/
+Disallow: /api/
+Disallow: /kontakt/danke/
 
 Sitemap: https://strandbad-gerlebogk.de/sitemap.xml
