@@ -20,7 +20,7 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 ├── datenschutz/index.html
 ├── 404.html
 ├── assets/css/main.css       Ein Stylesheet, keine @import-Ketten
-├── assets/fonts/             Alfa Slab One (woff2, selbst gehostet)
+├── assets/fonts/             Fraunces 600 (woff2, selbst gehostet)
 ├── assets/img/                Ausgelieferte Bilder (WebP + JPG-Fallback)
 ├── assets/img/src/            Quellbilder (Originale + geraderichtete Zwischenstufen) – nicht ausliefern, siehe robots.txt/.htaccess
 ├── tools/                     Build-Skripte für den Bild-Workflow (siehe unten)
