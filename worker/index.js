@@ -139,7 +139,7 @@ async function handleAnfrage(request, env) {
   } catch (err) {
     return fehlerSeite(
       "Der E-Mail-Versand ist gerade nicht möglich. Bitte schreibt uns in der Zwischenzeit direkt an " +
-      `<a href="mailto:info@party-company.de">info@party-company.de</a>.`
+      `<a href="mailto:info@strandbad-gerlebogk.de">info@strandbad-gerlebogk.de</a>.`
     );
   }
 
