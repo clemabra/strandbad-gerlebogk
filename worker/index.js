@@ -150,6 +150,13 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // Kanonische Domain ohne "www" – www.strandbad-gerlebogk.de leitet
+    // dauerhaft (301) auf dieselbe Adresse ohne www weiter.
+    if (url.hostname === "www.strandbad-gerlebogk.de") {
+      url.hostname = "strandbad-gerlebogk.de";
+      return Response.redirect(url.toString(), 301);
+    }
+
     if (url.pathname === "/api/anfrage") {
       if (request.method === "POST") return handleAnfrage(request, env);
       return new Response("Diese Adresse verarbeitet nur Formular-Anfragen (POST).", { status: 405 });
