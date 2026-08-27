@@ -1,0 +1,11 @@
+worker/
+tools/
+assets/img/src/
+.git/
+.github/
+.claude/
+wrangler.toml
+.assetsignore
+.gitignore
+README.md
+claude-code-prompt-strandbad-gerlebogk.md

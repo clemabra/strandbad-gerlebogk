@@ -1,21 +1,23 @@
 /**
- * Cloudflare Pages Function für das Anfrageformular auf /kontakt/.
+ * Cloudflare Worker für strandbad-gerlebogk.de.
  *
- * Nimmt die Formular-POST-Daten entgegen, prüft sie serverseitig und
- * verschickt sie per Cloudflare Email Routing (send_email-Binding) als
- * E-Mail an die feste Zieladresse. Kein Drittanbieter, keine Datenbank,
- * keine Speicherung – die Daten laufen einmalig durch diese Function durch
- * und landen als E-Mail im Postfach.
+ * Liefert die statische Seite über das ASSETS-Binding aus (siehe
+ * wrangler.toml [assets]) und behandelt zusätzlich eine einzige
+ * dynamische Route: POST /api/anfrage für das Formular auf /kontakt/.
+ * Alles andere geht unverändert an die statischen Dateien durch.
+ *
+ * Verschickt die Formular-Anfrage per Cloudflare Email Routing
+ * (send_email-Binding, siehe wrangler.toml) als E-Mail an die feste
+ * Zieladresse. Kein Drittanbieter, keine Datenbank, keine Speicherung –
+ * die Daten laufen einmalig durch diesen Worker durch und landen als
+ * E-Mail im Postfach.
  *
  * Setup-Voraussetzungen (siehe README.md):
  *   1. Domain strandbad-gerlebogk.de liegt bei Cloudflare.
  *   2. Cloudflare Email Routing ist für die Domain aktiviert.
  *   3. fischerparty@web.de ist dort als Zieladresse verifiziert.
- *   4. Das send_email-Binding "ANFRAGE_MAIL" ist im Pages-Projekt mit
- *      genau dieser Zieladresse verknüpft (wrangler.toml oder Dashboard).
- *
- * Ohne dieses Binding schlägt der E-Mail-Versand fehl; das Formular zeigt
- * dann die Fehlerseite statt der Danke-Seite.
+ * Das send_email-Binding selbst kommt aus der wrangler.toml – bei einem
+ * echten Worker-Projekt (anders als bei Pages) funktioniert das dort.
  */
 
 import { EmailMessage } from "cloudflare:email";
@@ -69,9 +71,7 @@ function fehlerSeite(nachricht) {
   });
 }
 
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+async function handleAnfrage(request, env) {
   let form;
   try {
     form = await request.formData();
@@ -146,6 +146,15 @@ export async function onRequestPost(context) {
   return Response.redirect(new URL("/kontakt/danke/", request.url), 303);
 }
 
-export async function onRequestGet() {
-  return new Response("Diese Adresse verarbeitet nur Formular-Anfragen (POST).", { status: 405 });
-}
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/api/anfrage") {
+      if (request.method === "POST") return handleAnfrage(request, env);
+      return new Response("Diese Adresse verarbeitet nur Formular-Anfragen (POST).", { status: 405 });
+    }
+
+    return env.ASSETS.fetch(request);
+  },
+};

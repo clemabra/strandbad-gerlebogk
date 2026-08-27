@@ -24,33 +24,48 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 ├── assets/img/                Ausgelieferte Bilder (WebP + JPG-Fallback)
 ├── assets/img/src/            Quellbilder (Originale + geraderichtete Zwischenstufen) – nicht ausliefern, siehe robots.txt/.htaccess
 ├── tools/                     Build-Skripte für den Bild-Workflow (siehe unten)
-├── functions/api/anfrage.js   Cloudflare Pages Function: Anfrageformular → E-Mail
-├── wrangler.toml               Pages-Grundkonfiguration (Name, compatibility_date)
+├── worker/index.js            Cloudflare Worker: liefert die Seite aus + Anfrageformular → E-Mail
+├── wrangler.toml               Worker-Konfiguration (Assets, send_email-Binding)
+├── .assetsignore               Dateien, die NICHT als statische Assets ausgeliefert werden
 ├── robots.txt, sitemap.xml, llms.txt
-├── .htaccess                  Apache-Konfiguration (falls nicht Cloudflare Pages)
-├── _headers                   Header-Konfiguration für Cloudflare Pages / Netlify
-└── _redirects                 Cloudflare Pages: 404 für /assets/img/src/ und /tools/
+├── .htaccess                  Apache-Konfiguration (falls nicht Cloudflare)
+├── _headers                   Header-Konfiguration (Cloudflare wertet das im Worker-Assets-Modus aus)
+└── _redirects                 404 für /assets/img/src/ und /tools/
 ```
 
 Die Website selbst bleibt bei 0 Byte JavaScript im Browser und 0 externen Requests
 vom Client aus. Das Anfrageformular ist ein normales HTML-`<form>` (funktioniert
-ohne JavaScript), das serverseitig von einer Cloudflare Pages Function verarbeitet
-wird – die läuft bei Cloudflare selbst, nicht bei einem Drittanbieter.
+ohne JavaScript), das serverseitig vom Cloudflare Worker verarbeitet wird – der
+läuft bei Cloudflare selbst, nicht bei einem Drittanbieter.
 
-## Deployment (Cloudflare Pages)
+## Deployment (Cloudflare Workers, statische Assets)
 
-1. Repository/Ordner an Cloudflare Pages anbinden (Build-Command: keiner, Output-Verzeichnis: `/`).
-2. Cloudflare Pages liest `_headers` automatisch aus – die `.htaccess` wird dort **nicht** ausgewertet, die liegt nur für alternative Apache-Hosts bereit.
-3. Domain `strandbad-gerlebogk.de` (TODO: Registrierung bestätigen) als Custom Domain in Cloudflare Pages hinterlegen, DNS auf Cloudflare zeigen lassen.
-4. Nach dem ersten Deploy: `sitemap.xml` bei der Google Search Console einreichen.
+**Wichtig:** Das ist kein klassisches "Cloudflare Pages"-Projekt, sondern ein
+Worker mit statischen Assets (`[assets]` in `wrangler.toml`). Cloudflares
+neuerer, vereinheitlichter "Workers & Pages"-Import legt Git-verbundene
+Projekte inzwischen so an. Zwei Stolperfallen, an denen wir beim ersten
+Einrichten hängengeblieben sind:
+
+- **Deploy command muss `npx wrangler deploy` sein** (nicht `wrangler pages
+  deploy` – dafür gibt es hier gar kein Pages-Projekt, der Befehl bricht mit
+  einem Authentifizierungsfehler ab).
+- Build command bleibt leer, Root directory `/`.
+
+Schritte:
+1. Repository an Cloudflare (Workers & Pages → Import a repository) anbinden.
+2. Im Projekt unter **Settings** prüfen, dass **Deploy command** `npx wrangler deploy` ist.
+3. Domain `strandbad-gerlebogk.de` unter **Settings → Domains** als Custom Domain hinterlegen, DNS liegt bei Cloudflare (Nameserver-Wechsel bei Strato o.ä.).
+4. Nach dem ersten erfolgreichen Deploy: `sitemap.xml` bei der Google Search Console einreichen.
 
 ## Anfrageformular einrichten (wichtig, sonst schlägt der Versand fehl)
 
-Das Formular auf `/kontakt/` sendet per POST an `/functions/api/anfrage.js`.
-Diese Cloudflare Pages Function verschickt die Anfrage per **Cloudflare Email
-Routing** – keine Datenbank, kein Drittanbieter, alles bleibt bei Cloudflare.
-Damit das funktioniert, sind einmalig ein paar Schritte im Cloudflare-Dashboard
-nötig (kann ich als Claude Code nicht selbst erledigen, da das Zugriff auf euer
+Das Formular auf `/kontakt/` sendet per POST an `/api/anfrage`, das der Worker
+(`worker/index.js`) selbst abfängt. Der Versand läuft über **Cloudflare Email
+Routing** (send_email-Binding, direkt in `wrangler.toml` deklariert – bei einem
+echten Worker-Projekt funktioniert das dort, anders als bei Pages) – keine
+Datenbank, kein Drittanbieter, alles bleibt bei Cloudflare. Damit das
+funktioniert, sind einmalig ein paar Schritte im Cloudflare-Dashboard nötig
+(kann ich als Claude Code nicht selbst erledigen, da das Zugriff auf euer
 Cloudflare-Konto braucht):
 
 1. Domain `strandbad-gerlebogk.de` muss bei Cloudflare liegen (siehe Deployment oben).
@@ -58,24 +73,14 @@ Cloudflare-Konto braucht):
 3. Unter **Destination addresses**: `fischerparty@web.de` hinzufügen und über
    den Bestätigungslink in der Mail verifizieren – ohne diese Verifizierung
    kann Cloudflare dorthin keine E-Mails zustellen.
-4. Im Pages-Projekt: **Settings** → **Functions** → **Email Bindings** → Binding
-   mit Name `ANFRAGE_MAIL` anlegen, Zieladresse `fischerparty@web.de`.
-   **Wichtig:** Das Binding lässt sich bei Pages-Projekten NICHT über die
-   `wrangler.toml` deklarieren (`wrangler pages deploy` bricht mit
-   "Configuration file for Pages projects does not support 'send_email'" ab,
-   getestet und bestätigt) – nur über diese Dashboard-Oberfläche.
-5. Neu deployen, danach das Formular auf `/kontakt/` einmal testweise ausfüllen
-   und prüfen, ob die Mail bei fischerparty@web.de ankommt (ggf. Spam-Ordner
-   prüfen, gerade beim allerersten Testversand).
-
-**Deploy command im Pages-Projekt:** `npx wrangler pages deploy .` (nicht
-`npx wrangler deploy` – das ist der Worker-Befehl und bricht bei einem
-Pages-Projekt mit "Missing entry-point to Worker script" ab; von Cloudflares
-Onboarding-Assistenten teils falsch vorbelegt).
+4. Neu deployen (das `send_email`-Binding aus der `wrangler.toml` wird dabei
+   automatisch angelegt), danach das Formular auf `/kontakt/` einmal
+   testweise ausfüllen und prüfen, ob die Mail bei fischerparty@web.de
+   ankommt (ggf. Spam-Ordner prüfen, gerade beim allerersten Testversand).
 
 Schlägt der Mailversand fehl, zeigt das Formular eine Fehlerseite mit
 Ausweich-Kontaktdaten statt der Danke-Seite – schaut in dem Fall in die
-Function-Logs im Cloudflare-Dashboard.
+Worker-Logs im Cloudflare-Dashboard (Projekt → Logs).
 
 ## Bild-Workflow
 

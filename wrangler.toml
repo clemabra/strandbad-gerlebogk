@@ -1,15 +1,27 @@
-# Cloudflare Pages-Konfiguration.
+# Cloudflare Worker-Konfiguration für strandbad-gerlebogk.de.
 #
-# Das send_email-Binding fürs Anfrageformular (/functions/api/anfrage.js)
-# steht bewusst NICHT hier drin: Pages-Projekte lehnen "send_email" in der
-# wrangler.toml ab ("Configuration file for Pages projects does not support
-# send_email"). Das Binding muss stattdessen im Cloudflare-Dashboard gesetzt
-# werden unter Workers & Pages → Projekt → Settings → Functions →
-# "Email Bindings" → Binding-Name "ANFRAGE_MAIL", Zieladresse
-# fischerparty@web.de. Genaue Schritte stehen in der README unter
-# "Anfrageformular einrichten".
+# Dieses Projekt läuft als "echter" Worker mit statischen Assets (nicht als
+# klassisches Pages-Projekt) – das Cloudflare-Onboarding hat es beim Anlegen
+# so erstellt. "wrangler pages deploy" schlägt hier fehl (kein Pages-Projekt
+# vorhanden); der richtige Befehl ist "npx wrangler deploy".
+#
+# [assets] liefert die statische Seite aus (Repo-Root, siehe .assetsignore
+# für ausgeschlossene Dateien). worker/index.js behandelt zusätzlich die
+# eine dynamische Route POST /api/anfrage fürs Kontaktformular und reicht
+# alles andere unverändert an ASSETS weiter.
+#
+# send_email-Binding: bei einem Worker-Projekt (anders als bei Pages) direkt
+# hier deklarierbar, kein Dashboard-Umweg nötig.
 
 name = "strandbad-gerlebogk"
-pages_build_output_dir = "."
+main = "worker/index.js"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "."
+binding = "ASSETS"
+
+[[send_email]]
+name = "ANFRAGE_MAIL"
+destination_address = "fischerparty@web.de"
