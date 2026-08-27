@@ -55,6 +55,12 @@ MANIFEST = {
     "catering-haehnchen": [480, 800, 1200],
     "catering-krautsalat": [480, 800, 1200],
     "campingplatz-wohnwagen": [480, 800, 1600],
+
+    # Dritte Lieferung (Ordner "Firmen Catering")
+    "firmencatering-zelt-tafel": [640, 1000, 1600],
+    "firmencatering-zelt-aussen": [640, 1000, 1600],
+    "street-bbq-foodtruck": [480, 800, 1200],
+    "bulli-bar": [480, 800, 1200],
 }
 
 JPG_QUALITY = 82

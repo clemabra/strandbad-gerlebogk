@@ -25,7 +25,7 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 ├── assets/img/src/            Quellbilder (Originale + geraderichtete Zwischenstufen) – nicht ausliefern, siehe robots.txt/.htaccess
 ├── tools/                     Build-Skripte für den Bild-Workflow (siehe unten)
 ├── functions/api/anfrage.js   Cloudflare Pages Function: Anfrageformular → E-Mail
-├── wrangler.toml               send_email-Binding für das Anfrageformular (siehe unten)
+├── wrangler.toml               Pages-Grundkonfiguration (Name, compatibility_date)
 ├── robots.txt, sitemap.xml, llms.txt
 ├── .htaccess                  Apache-Konfiguration (falls nicht Cloudflare Pages)
 ├── _headers                   Header-Konfiguration für Cloudflare Pages / Netlify
@@ -58,20 +58,24 @@ Cloudflare-Konto braucht):
 3. Unter **Destination addresses**: `fischerparty@web.de` hinzufügen und über
    den Bestätigungslink in der Mail verifizieren – ohne diese Verifizierung
    kann Cloudflare dorthin keine E-Mails zustellen.
-4. Im Pages-Projekt: **Settings** → **Functions** → **Email Bindings** (falls
-   diese Oberfläche bei euch anders heißt oder die `wrangler.toml` im Repo-Root
-   automatisch gegriffen hat, ist dieser Schritt schon erledigt) → Binding mit
-   Name `ANFRAGE_MAIL` anlegen, Zieladresse `fischerparty@web.de`.
+4. Im Pages-Projekt: **Settings** → **Functions** → **Email Bindings** → Binding
+   mit Name `ANFRAGE_MAIL` anlegen, Zieladresse `fischerparty@web.de`.
+   **Wichtig:** Das Binding lässt sich bei Pages-Projekten NICHT über die
+   `wrangler.toml` deklarieren (`wrangler pages deploy` bricht mit
+   "Configuration file for Pages projects does not support 'send_email'" ab,
+   getestet und bestätigt) – nur über diese Dashboard-Oberfläche.
 5. Neu deployen, danach das Formular auf `/kontakt/` einmal testweise ausfüllen
    und prüfen, ob die Mail bei fischerparty@web.de ankommt (ggf. Spam-Ordner
    prüfen, gerade beim allerersten Testversand).
 
-**Wichtig:** Ich habe dieses Setup nicht live gegen ein echtes Cloudflare-Konto
-getestet, da ich dafür keinen Zugriff habe – die Function folgt Cloudflares
-dokumentiertem Vorgehen für `send_email`-Bindings, aber der erste Testversand
-nach dem Deploy ist Pflicht, nicht optional. Schlägt er fehl, zeigt das
-Formular eine Fehlerseite mit Ausweich-Kontaktdaten statt der Danke-Seite –
-schaut in dem Fall in die Function-Logs im Cloudflare-Dashboard.
+**Deploy command im Pages-Projekt:** `npx wrangler pages deploy .` (nicht
+`npx wrangler deploy` – das ist der Worker-Befehl und bricht bei einem
+Pages-Projekt mit "Missing entry-point to Worker script" ab; von Cloudflares
+Onboarding-Assistenten teils falsch vorbelegt).
+
+Schlägt der Mailversand fehl, zeigt das Formular eine Fehlerseite mit
+Ausweich-Kontaktdaten statt der Danke-Seite – schaut in dem Fall in die
+Function-Logs im Cloudflare-Dashboard.
 
 ## Bild-Workflow
 
@@ -148,19 +152,29 @@ Nicht verwendet: `Umgebung/` (nur herbstliche/kahle Bäume, passt nicht zur
 Sommer-Saison der Seite), die meisten `Deko/`-Nahaufnahmen (redundant zu
 bereits vorhandenen Detailbildern), einzelne `Party/`- und `Buffet/`-Fotos mit
 störendem Fremdbranding oder unruhigem Hintergrund. `Bilder Ivonne/` war leer.
-Der `logo/`-Ordner enthält die in der Konversation abgestimmten Logo-Entwürfe
-(Festzelt-Motiv) – noch nicht final gewählt/eingebaut.
+Der `logo/`-Ordner enthält die Logo-Entwürfe aus der Konversation (Sonnenschirm-
+Motiv, aktiv eingebaut; Festzelt- und Welle/Möwe-Motiv als geprüfte, nicht
+gewählte Alternativen).
 
-### Logo & Wellenkante – austauschen, sobald finale Assets vorliegen
+### Logo – aktiver Stand
 
-- **Logo**: Aktuell ein bewusst als Platzhalter erkennbares SVG-artiges PNG
-  (gestrichelter Kreis, "LOGO"-Schriftzug), erzeugt mit `tools/build-placeholder-logo.py`.
-  Sobald das finale Logo vorliegt: Datei in `assets/img/src/` legen, mit
-  Pillow/`cwebp` in `logo-96/192/384.{png,webp}` und `favicon-32.png`/`favicon-180.png`
-  umwandeln (gleiches Muster wie `build-placeholder-logo.py`), `alt`-Text in
-  allen 8 Seiten + `404.html` von "Platzhalter-Logo … finales Logo folgt" auf
-  eine echte Bildbeschreibung ändern.
-- **Wellenkante** (Signature-Element, Pendant zur Lichterketten-Girlande der
+Echtes, bestehendes Firmenlogo (Sonnenschirm + Schriftzug), vom Betreiber
+geliefert und mit `tools/recolor-logo.py` (Farb-Remapping per gewichteter
+Distanz, erhält sauberes Anti-Aliasing an den Kanten) von den Originalfarben
+auf die Website-Palette (`#0D1729`/`#F07A16`) umgerechnet. Eingebaut in
+`assets/img/logo-96/192/384.{png,webp}` und `favicon-32/180.png`, `alt`-Text
+auf allen Seiten aktualisiert. Kein Platzhalter mehr.
+
+Offene Design-Diskussion: Das Logo bündelt Icon + kompletten Schriftzug in
+einem Bild – im Header steht der Name aber ohnehin schon als echter Text
+daneben (`.marke__name`, in Fraunces gesetzt). Ein reines Icon ohne
+eingebackenen Text wäre kleiner, schärfer bei 32px (Favicon) und ließe sich
+mit der Fraunces-Typografie kombinieren statt sie zu duplizieren. Alternative
+grafische Richtung (Welle + Möwe, greift die Wellenkante der Seite auf) liegt
+unter `Strandbad Assets/logo/neumoewe.png` bzw. umgefärbt unter
+`logo-final-moewe.png` bereit, noch nicht final entschieden.
+
+### Wellenkante
   Partycompany – ursprünglich als "Segelkante"/Sonnensegel-Motiv geplant,
   nach Rückmeldung auf drei ineinander verschlungene Wellenlinien geändert):
   ein von Hand geschriebenes SVG, direkt als CSS-Variable `--wellen` in
@@ -217,23 +231,34 @@ einzuhalten). Manuell umzustellen, sobald die Saison (15.9.) endet:
   Gästezahl, Vorlaufzeit für Buchung) – nur "Übernachtung vor Ort" ist aus
   bestehendem Partycompany-Material belegt und beantwortet.
 - **Strandbad-FAQ**: Hunde erlaubt?, Duschen vorhanden? – unbeantwortet.
-- **Logo**: Platzhalter aktiv, s. o.
+- **Catering-Preise**: pro Kategorie (Fingerfood/Buffet/Grill) als
+  `<span class="todo">` in den neuen Katalog-Karten auf `/catering/`, nicht
+  mehr als einzelne Tabelle.
 - **Domain-Registrierung** `strandbad-gerlebogk.de`: zu bestätigen (Hinweis in
   der Datenschutzerklärung).
-- **Bilder in höherer Auflösung**: `ruderboot-daemmerung`, `catering-fingerfood`,
-  `catering-buffet` (aktuell 414×414, nur klein einsetzbar).
+- **Bilder in höherer Auflösung**: `ruderboot-daemmerung` (aktuell 414×414,
+  nur klein einsetzbar). `catering-fingerfood`/`catering-buffet` sind mit den
+  neuen, hochauflösenden Buffet-Fotos aus `Strandbad Assets/Buffet/` ersetzt.
 - **Nächstes Event** (Termin/Line-up Partycompany-Open-Air): bewusst nicht
   eingebaut, siehe "Event-Teaser austauschen" oben.
 - **Anfrageformular-Versand testen**: Cloudflare Email Routing + send_email-
   Binding einrichten (siehe "Anfrageformular einrichten" oben) und nach dem
   Deploy einmal live durchtesten – von mir ungetestet, da kein Zugriff aufs
   Cloudflare-Konto.
+- **Logo-Feinschliff**: aktuelles Logo bündelt Icon + Schriftzug in einem
+  Bild, siehe Diskussion unter "Logo – aktiver Stand" oben.
 
 Impressum, Kontakt und USt-IdNr. wurden **nicht** als TODO gelassen: Auftraggeber
 hat bestätigt, dass Strandbad dieselben Kontakt-/Impressumsdaten wie die
 Partycompany nutzt (Inhaberin Martina Wachsmuth, Am Gemeindebackhaus 4a, 06406
 Bernburg, USt-IdNr. DE315511872), ergänzt um die Betriebsstätte Gröbziger
 Straße 25, 06420 Könnern OT Gerlebogk.
+
+**Zwei Telefonnummern, bewusst getrennt**: `0177 / 65 31 998` ist die
+allgemeine Nummer (Hochzeit, Feiern, Catering, alles Allgemeine) und steht in
+Header/Footer/Kontaktseite. `0163 / 34 14 382` ist ausschließlich für
+Camping-Reservierungen und steht nur auf `/camping/` (Eckdaten-Feld
+"Reservierung" + Anfrageband) sowie als Hinweis auf `/kontakt/`.
 
 ## Selbstprüfung gegen die Anforderungsliste
 
