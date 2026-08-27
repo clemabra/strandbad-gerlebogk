@@ -24,7 +24,7 @@
 <link rel="apple-touch-icon" href="/assets/img/favicon-180.png">
 <meta name="theme-color" content="#fdfdfd">
 
-<link rel="preload" href="/assets/fonts/alfa-slab-one-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="/assets/img/catering-tafel-uebersicht-1000.webp" type="image/webp"
       imagesrcset="/assets/img/catering-tafel-uebersicht-640.webp 640w, /assets/img/catering-tafel-uebersicht-1000.webp 1000w, /assets/img/catering-tafel-uebersicht-1600.webp 1600w"
       imagesizes="(max-width: 56rem) 100vw, 50vw" fetchpriority="high">
@@ -56,17 +56,17 @@
         {
           "@type": "Question",
           "name": "Gibt es vegetarische oder vegane Optionen beim Buffet?",
-          "acceptedAnswer": { "@type": "Answer", "text": "TODO: Antwort vom Betreiber nachliefern." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Eine vegetarische Alternative ist immer dabei. Vegane Optionen bieten wir auf Anfrage an." }
         },
         {
           "@type": "Question",
           "name": "Könnt ihr Allergien und Unverträglichkeiten berücksichtigen?",
-          "acceptedAnswer": { "@type": "Answer", "text": "TODO: Antwort vom Betreiber nachliefern." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Ja, auf Anfrage berücksichtigen wir Allergien und Unverträglichkeiten. Eine Übersicht über alle Inhaltsstoffe für Allergiker liegt bei jedem Catering bereit." }
         },
         {
           "@type": "Question",
           "name": "Ab wie vielen Gästen ist Catering buchbar?",
-          "acceptedAnswer": { "@type": "Answer", "text": "TODO: Mindestpersonenzahl nachliefern." }
+          "acceptedAnswer": { "@type": "Answer", "text": "Ab ca. 50 Gästen. Nach oben gibt es keine feste Grenze." }
         }
       ]
     }
@@ -84,7 +84,7 @@
       <picture>
         <source type="image/webp" srcset="/assets/img/logo-96.webp 1x, /assets/img/logo-192.webp 2x, /assets/img/logo-384.webp 4x">
         <img src="/assets/img/logo-96.png" srcset="/assets/img/logo-192.png 2x, /assets/img/logo-384.png 4x" width="72" height="72"
-             alt="Platzhalter-Logo Strandbad Gerlebogk – finales Logo folgt">
+             alt="Logo Strandbad & Campingplatz Gerlebogk: Sonnenschirm über dem Schriftzug">
       </picture>
       <span class="marke__name">Strandbad Gerlebogk
         <span class="marke__zusatz">& Campingplatz</span>
@@ -151,103 +151,198 @@
           Gerlebogk, Gemeinde Könnern, Salzlandkreis.
         </p>
       </div>
+
+      <ul class="sprungmarken mt-l">
+        <li><a class="sprungmarke" href="#firmen-titel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          Firmencatering
+        </a></li>
+        <li><a class="sprungmarke" href="#fingerfood-titel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="20" x2="20" y2="4"/><circle cx="8" cy="16" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>
+          Fingerfood
+        </a></li>
+        <li><a class="sprungmarke" href="#buffet-titel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>
+          Buffet
+        </a></li>
+        <li><a class="sprungmarke" href="#grill-titel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 14c0-7-9-13-9-13s-9 6-9 13a9 9 0 0 0 18 0z"/></svg>
+          Grill &amp; BBQ
+        </a></li>
+      </ul>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="buffet-titel">
-    <div class="wrap duo duo--medialinks">
-      <div class="duo__media bild--hoch">
-        <picture>
-          <source type="image/webp" srcset="/assets/img/catering-kaesebrett-480.webp 480w, /assets/img/catering-kaesebrett-800.webp 800w, /assets/img/catering-kaesebrett-1200.webp 1200w" sizes="(max-width: 56rem) 100vw, 45vw">
-          <img src="/assets/img/catering-kaesebrett-800.jpg" srcset="/assets/img/catering-kaesebrett-480.jpg 480w, /assets/img/catering-kaesebrett-800.jpg 800w, /assets/img/catering-kaesebrett-1200.jpg 1200w" sizes="(max-width: 56rem) 100vw, 45vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Käsebrett mit frischem Obst, Beeren und Brezeln auf einer Buffettafel">
-        </picture>
+  <div class="wellen" role="presentation"></div>
+
+  <section class="section section--sand" aria-labelledby="firmen-titel">
+    <div class="wrap">
+      <p class="eyebrow">Auch außer Haus</p>
+      <h2 id="firmen-titel">Firmencatering – wir kommen zu euch</h2>
+      <p class="lede">Für Sommerfeste, Teamevents und Firmenfeiern muss es nicht am See sein: Unser mobiles Team baut Foodtruck, Getränkebar und auf Wunsch ein komplettes Festzelt mit Stehtischen direkt bei euch auf dem Firmengelände auf.</p>
+
+      <div class="duo mt-l">
+        <div class="duo__media bild--breit">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/firmencatering-zelt-tafel-640.webp 640w, /assets/img/firmencatering-zelt-tafel-1000.webp 1000w, /assets/img/firmencatering-zelt-tafel-1600.webp 1600w" sizes="(max-width: 56rem) 100vw, 45vw">
+            <img src="/assets/img/firmencatering-zelt-tafel-1000.jpg" srcset="/assets/img/firmencatering-zelt-tafel-640.jpg 640w, /assets/img/firmencatering-zelt-tafel-1000.jpg 1000w, /assets/img/firmencatering-zelt-tafel-1600.jpg 1600w" sizes="(max-width: 56rem) 100vw, 45vw" width="1600" height="1200" loading="lazy" decoding="async" alt="Festlich eingedeckte Tafeln im weißen Festzelt für ein Firmenevent">
+          </picture>
+        </div>
+        <div>
+          <p class="eyebrow">Street BBQ Foodtruck</p>
+          <h3>Frisch vom Grill, direkt vor Ort</h3>
+          <p>Unser Street BBQ Foodtruck kommt zu eurer Firmenfeier – wahlweise mit:</p>
+          <ul class="karte mt-s">
+            <li><span class="karte__name">Grillbuffet</span><span class="karte__fuellung"></span><span class="karte__hinweis">frisch gegrillt</span></li>
+            <li><span class="karte__name">Homestyle Burger</span><span class="karte__fuellung"></span></li>
+            <li><span class="karte__name">Pulled Pork Burger</span><span class="karte__fuellung"></span></li>
+          </ul>
+          <p class="katalog__preis mt-s">Ab <span class="todo">TODO €/Person</span><span aria-hidden="true">·</span>ab <span class="todo">TODO Personen</span> · Einsatzradius <span class="todo">TODO</span></p>
+        </div>
       </div>
-      <div>
-        <p class="eyebrow">Was auf den Tisch kommt</p>
-        <h2 id="buffet-titel">Frisch zubereitet, individuell zusammengestellt</h2>
-        <p>
-          Ob Käseplatte mit frischem Obst, bunte Salate mit essbaren Blüten, saftige Grillspieße
-          vom Grill oder ein Dessert zum Abschluss – unser Buffet wird vor Ort frisch zubereitet
-          und auf euren Anlass abgestimmt.
-        </p>
-        <p>Menüs, Preise und Mindestpersonenzahl stimmen wir individuell mit euch ab.</p>
+
+      <div class="duo mt-xl duo--medialinks">
+        <div class="duo__media bild--breit">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/bulli-bar-480.webp 480w, /assets/img/bulli-bar-800.webp 800w, /assets/img/bulli-bar-1200.webp 1200w" sizes="(max-width: 56rem) 100vw, 45vw">
+            <img src="/assets/img/bulli-bar-800.jpg" srcset="/assets/img/bulli-bar-480.jpg 480w, /assets/img/bulli-bar-800.jpg 800w, /assets/img/bulli-bar-1200.jpg 1200w" sizes="(max-width: 56rem) 100vw, 45vw" width="1200" height="900" loading="lazy" decoding="async" alt="Bulli Bar: mobile Getränkebar im VW-Bus bei einem Firmenevent">
+          </picture>
+        </div>
+        <div>
+          <p class="eyebrow">Bulli Bar</p>
+          <h3>Kühle Drinks aus dem VW-Bus</h3>
+          <p>Unsere mobile Getränkebar im VW-Bulli versorgt eure Gäste mit kühlen Softdrinks – ein Blickfang für jede Firmenfeier.</p>
+        </div>
+      </div>
+
+      <div class="bildstrecke mt-xl">
+        <div>
+          <picture>
+            <source type="image/webp" srcset="/assets/img/firmencatering-zelt-aussen-640.webp 640w, /assets/img/firmencatering-zelt-aussen-1000.webp 1000w" sizes="(max-width: 48rem) 50vw, 33vw">
+            <img src="/assets/img/firmencatering-zelt-aussen-640.jpg" srcset="/assets/img/firmencatering-zelt-aussen-640.jpg 640w, /assets/img/firmencatering-zelt-aussen-1000.jpg 1000w" sizes="(max-width: 48rem) 50vw, 33vw" width="1600" height="1200" loading="lazy" decoding="async" alt="Festzelt mit Stehtischen, aufgebaut für eine Firmenfeier">
+          </picture>
+        </div>
+        <div>
+          <picture>
+            <source type="image/webp" srcset="/assets/img/street-bbq-foodtruck-480.webp 480w, /assets/img/street-bbq-foodtruck-800.webp 800w" sizes="(max-width: 48rem) 50vw, 33vw">
+            <img src="/assets/img/street-bbq-foodtruck-480.jpg" srcset="/assets/img/street-bbq-foodtruck-480.jpg 480w, /assets/img/street-bbq-foodtruck-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 33vw" width="1200" height="900" loading="lazy" decoding="async" alt="Street BBQ Foodtruck mit offener Grillküche">
+          </picture>
+        </div>
+      </div>
+
+      <p class="mt-l"><a class="btn btn--anfrage" href="/kontakt/">Firmencatering anfragen</a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="katalog-titel">
+    <div class="wrap">
+      <p class="eyebrow">Was auf den Tisch kommt</p>
+      <h2 id="katalog-titel">Frisch zubereitet, nach Kategorie</h2>
+      <p class="lede">Drei Bausteine, individuell kombinierbar – Menüs, Preise und Mindestpersonenzahl stimmen wir gemeinsam mit euch ab.</p>
+
+      <div class="katalog mt-l">
+
+        <article class="katalog__karte" aria-labelledby="fingerfood-titel">
+          <div class="collage">
+            <div class="collage__haupt">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-salat-bluete-480.webp 480w, /assets/img/catering-salat-bluete-800.webp 800w, /assets/img/catering-salat-bluete-1200.webp 1200w" sizes="(max-width: 56rem) 100vw, 45vw">
+                <img src="/assets/img/catering-salat-bluete-800.jpg" srcset="/assets/img/catering-salat-bluete-480.jpg 480w, /assets/img/catering-salat-bluete-800.jpg 800w, /assets/img/catering-salat-bluete-1200.jpg 1200w" sizes="(max-width: 56rem) 100vw, 45vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Bunter Salat mit essbaren Blüten und Kräutern">
+              </picture>
+            </div>
+            <div class="collage__neben">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-fingerfood-380.webp 380w">
+                <img src="/assets/img/catering-fingerfood-380.jpg" width="414" height="414" loading="lazy" decoding="async" alt="Fingerfood-Platte mit Canapés">
+              </picture>
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">Zum Empfang</p>
+            <h3 id="fingerfood-titel">Fingerfood &amp; Sektempfang</h3>
+            <p>Kalte und warme Häppchen für den Start in eure Feier – Canapés und kleine Kreationen zum Reinbeißen, mit essbaren Blüten und frischen Kräutern angerichtet.</p>
+            <p class="katalog__preis">Ab <span class="todo">TODO €/Person</span><span aria-hidden="true">·</span>ab <span class="todo">TODO Personen</span></p>
+            <p class="mt-s"><a class="btn btn--leise" href="/kontakt/">Fingerfood anfragen</a></p>
+          </div>
+        </article>
+
+        <article class="katalog__karte" aria-labelledby="buffet-titel">
+          <div class="collage">
+            <div class="collage__haupt">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-kaesebrett-480.webp 480w, /assets/img/catering-kaesebrett-800.webp 800w, /assets/img/catering-kaesebrett-1200.webp 1200w" sizes="(max-width: 56rem) 100vw, 45vw">
+                <img src="/assets/img/catering-kaesebrett-800.jpg" srcset="/assets/img/catering-kaesebrett-480.jpg 480w, /assets/img/catering-kaesebrett-800.jpg 800w, /assets/img/catering-kaesebrett-1200.jpg 1200w" sizes="(max-width: 56rem) 100vw, 45vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Käsebrett mit frischem Obst, Beeren und Brezeln auf einer Buffettafel">
+              </picture>
+            </div>
+            <div class="collage__neben">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-dessert-480.webp 480w, /assets/img/catering-dessert-800.webp 800w">
+                <img src="/assets/img/catering-dessert-480.jpg" srcset="/assets/img/catering-dessert-480.jpg 480w, /assets/img/catering-dessert-800.jpg 800w" width="1200" height="1600" loading="lazy" decoding="async" alt="Dessertbecher mit Beeren und Keksboden im Buffet">
+              </picture>
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">Die Hauptsache</p>
+            <h3 id="buffet-titel">Buffet</h3>
+            <p>Käseplatten mit frischem Obst, bunte Salate und ein Dessert zum Abschluss – klassisch zusammengestellt und vor Ort frisch aufgebaut.</p>
+            <p class="katalog__preis">Ab <span class="todo">TODO €/Person</span><span aria-hidden="true">·</span>ab <span class="todo">TODO Personen</span></p>
+            <p class="mt-s"><a class="btn btn--leise" href="/kontakt/">Buffet anfragen</a></p>
+          </div>
+        </article>
+
+        <article class="katalog__karte" aria-labelledby="grill-titel">
+          <div class="collage">
+            <div class="collage__haupt">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-grillspiesse-480.webp 480w, /assets/img/catering-grillspiesse-800.webp 800w, /assets/img/catering-grillspiesse-1200.webp 1200w" sizes="(max-width: 56rem) 100vw, 45vw">
+                <img src="/assets/img/catering-grillspiesse-800.jpg" srcset="/assets/img/catering-grillspiesse-480.jpg 480w, /assets/img/catering-grillspiesse-800.jpg 800w, /assets/img/catering-grillspiesse-1200.jpg 1200w" sizes="(max-width: 56rem) 100vw, 45vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Gegrillte Fleischspieße mit Gemüse auf einer Servierplatte">
+              </picture>
+            </div>
+            <div class="collage__neben">
+              <picture>
+                <source type="image/webp" srcset="/assets/img/catering-haehnchen-480.webp 480w, /assets/img/catering-haehnchen-800.webp 800w">
+                <img src="/assets/img/catering-haehnchen-480.jpg" srcset="/assets/img/catering-haehnchen-480.jpg 480w, /assets/img/catering-haehnchen-800.jpg 800w" width="1200" height="1600" loading="lazy" decoding="async" alt="Knusprige Hähnchenstücke auf Rucola angerichtet">
+              </picture>
+            </div>
+          </div>
+          <div>
+            <p class="eyebrow">Rustikal</p>
+            <h3 id="grill-titel">Grill &amp; BBQ</h3>
+            <p>Saftige Spieße und Braten frisch vom Grill, im BBQ-Stil der Partycompany – für alle, die es deftig mögen.</p>
+            <p class="katalog__preis">Ab <span class="todo">TODO €/Person</span><span aria-hidden="true">·</span>ab <span class="todo">TODO Personen</span></p>
+            <p class="mt-s"><a class="btn btn--leise" href="/kontakt/">Grillbuffet anfragen</a></p>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
 
   <div class="wellen" role="presentation"></div>
 
-  <section class="section" aria-labelledby="strecke-titel">
+  <section class="section section--sand" aria-labelledby="strecke-titel">
     <div class="wrap">
-      <p class="eyebrow">Impressionen</p>
+      <p class="eyebrow">Weitere Eindrücke</p>
       <h2 id="strecke-titel">Vom Buffet auf euren Teller</h2>
       <div class="bildstrecke mt-l">
         <div>
           <picture>
-            <source type="image/webp" srcset="/assets/img/catering-fruchtsalat-480.webp 480w, /assets/img/catering-fruchtsalat-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-fruchtsalat-480.jpg" srcset="/assets/img/catering-fruchtsalat-480.jpg 480w, /assets/img/catering-fruchtsalat-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Bunte Fruchtsalat-Platte mit Beeren und frischen Kräutern">
+            <source type="image/webp" srcset="/assets/img/catering-fruchtsalat-480.webp 480w, /assets/img/catering-fruchtsalat-800.webp 800w" sizes="(max-width: 48rem) 50vw, 33vw">
+            <img src="/assets/img/catering-fruchtsalat-480.jpg" srcset="/assets/img/catering-fruchtsalat-480.jpg 480w, /assets/img/catering-fruchtsalat-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 33vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Bunte Fruchtsalat-Platte mit Beeren und frischen Kräutern">
           </picture>
         </div>
         <div>
           <picture>
-            <source type="image/webp" srcset="/assets/img/catering-grillspiesse-480.webp 480w, /assets/img/catering-grillspiesse-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-grillspiesse-480.jpg" srcset="/assets/img/catering-grillspiesse-480.jpg 480w, /assets/img/catering-grillspiesse-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Gegrillte Fleischspieße mit Gemüse auf einer Servierplatte">
+            <source type="image/webp" srcset="/assets/img/catering-braten-480.webp 480w, /assets/img/catering-braten-800.webp 800w" sizes="(max-width: 48rem) 50vw, 33vw">
+            <img src="/assets/img/catering-braten-480.jpg" srcset="/assets/img/catering-braten-480.jpg 480w, /assets/img/catering-braten-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 33vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Geschmorter Braten mit Kräutern in der Warmhalteschale">
           </picture>
         </div>
         <div>
           <picture>
-            <source type="image/webp" srcset="/assets/img/catering-braten-480.webp 480w, /assets/img/catering-braten-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-braten-480.jpg" srcset="/assets/img/catering-braten-480.jpg 480w, /assets/img/catering-braten-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Geschmorter Braten mit Kräutern in der Warmhalteschale">
+            <source type="image/webp" srcset="/assets/img/catering-krautsalat-480.webp 480w, /assets/img/catering-krautsalat-800.webp 800w" sizes="(max-width: 48rem) 50vw, 33vw">
+            <img src="/assets/img/catering-krautsalat-480.jpg" srcset="/assets/img/catering-krautsalat-480.jpg 480w, /assets/img/catering-krautsalat-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 33vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Krautsalat mit frischen Beeren und Minze garniert">
           </picture>
         </div>
-        <div>
-          <picture>
-            <source type="image/webp" srcset="/assets/img/catering-salat-bluete-480.webp 480w, /assets/img/catering-salat-bluete-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-salat-bluete-480.jpg" srcset="/assets/img/catering-salat-bluete-480.jpg 480w, /assets/img/catering-salat-bluete-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Bunter Salat mit essbaren Blüten und Kräutern">
-          </picture>
-        </div>
-        <div>
-          <picture>
-            <source type="image/webp" srcset="/assets/img/catering-haehnchen-480.webp 480w, /assets/img/catering-haehnchen-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-haehnchen-480.jpg" srcset="/assets/img/catering-haehnchen-480.jpg 480w, /assets/img/catering-haehnchen-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Knusprige Hähnchenstücke auf Rucola angerichtet">
-          </picture>
-        </div>
-        <div>
-          <picture>
-            <source type="image/webp" srcset="/assets/img/catering-krautsalat-480.webp 480w, /assets/img/catering-krautsalat-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-krautsalat-480.jpg" srcset="/assets/img/catering-krautsalat-480.jpg 480w, /assets/img/catering-krautsalat-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Krautsalat mit frischen Beeren und Minze garniert">
-          </picture>
-        </div>
-        <div>
-          <picture>
-            <source type="image/webp" srcset="/assets/img/catering-dessert-480.webp 480w, /assets/img/catering-dessert-800.webp 800w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-dessert-480.jpg" srcset="/assets/img/catering-dessert-480.jpg 480w, /assets/img/catering-dessert-800.jpg 800w" sizes="(max-width: 48rem) 50vw, 25vw" width="1200" height="1600" loading="lazy" decoding="async" alt="Dessertbecher mit Beeren und Keksboden im Buffet">
-          </picture>
-        </div>
-        <div>
-          <picture>
-            <source type="image/webp" srcset="/assets/img/catering-fingerfood-380.webp 380w" sizes="(max-width: 48rem) 50vw, 25vw">
-            <img src="/assets/img/catering-fingerfood-380.jpg" width="414" height="414" loading="lazy" decoding="async" alt="Fingerfood-Platte mit Canapés">
-          </picture>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wellen" role="presentation"></div>
-
-  <section class="section section--sand" aria-labelledby="preise-titel">
-    <div class="wrap">
-      <p class="eyebrow">Preise</p>
-      <h2 id="preise-titel">Was kostet das Catering?</h2>
-      <div class="tabelle-scroll">
-        <table class="datentabelle">
-          <tbody>
-            <tr><th scope="row">Buffet pro Person</th><td><span class="todo">TODO: Preis nachliefern</span></td></tr>
-            <tr><th scope="row">Mindestpersonenzahl</th><td><span class="todo">TODO: nachliefern</span></td></tr>
-            <tr><th scope="row">Anlieferung &amp; Service vor Ort</th><td><span class="todo">TODO: nachliefern</span></td></tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </section>
@@ -259,15 +354,15 @@
       <dl class="faq mt-l">
         <div>
           <dt>Gibt es vegetarische oder vegane Optionen?</dt>
-          <dd><span class="todo">TODO: Antwort vom Betreiber nachliefern</span></dd>
+          <dd>Eine vegetarische Alternative ist bei uns immer dabei. Vegane Optionen bieten wir auf Anfrage an.</dd>
         </div>
         <div>
           <dt>Könnt ihr Allergien und Unverträglichkeiten berücksichtigen?</dt>
-          <dd><span class="todo">TODO: Antwort vom Betreiber nachliefern</span></dd>
+          <dd>Ja – auf Anfrage berücksichtigen wir Allergien und Unverträglichkeiten. Eine Übersicht über alle Inhaltsstoffe für Allergiker liegt bei jedem Catering bereit.</dd>
         </div>
         <div>
           <dt>Ab wie vielen Gästen ist Catering buchbar?</dt>
-          <dd><span class="todo">TODO: Mindestpersonenzahl nachliefern</span></dd>
+          <dd>Ab ca. 50 Gästen. Nach oben setzen wir keine feste Grenze – größere Feiern sind uns sogar am liebsten.</dd>
         </div>
       </dl>
     </div>
