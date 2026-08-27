@@ -1,4 +1,0 @@
-# Cloudflare Pages: Quellbilder und Build-Skripte gehören nicht ins Web.
-# (Ergänzt _headers, das selbst keine 404s/Blocks aussprechen kann.)
-/assets/img/src/*  /404.html  404
-/tools/*           /404.html  404

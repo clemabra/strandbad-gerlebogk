@@ -29,9 +29,15 @@ gleiche Typografie, gleiche Bausteine, gleiche Akzentfarbe, gespiegeltes Farbsch
 ├── .assetsignore               Dateien, die NICHT als statische Assets ausgeliefert werden
 ├── robots.txt, sitemap.xml, llms.txt
 ├── .htaccess                  Apache-Konfiguration (falls nicht Cloudflare)
-├── _headers                   Header-Konfiguration (Cloudflare wertet das im Worker-Assets-Modus aus)
-└── _redirects                 404 für /assets/img/src/ und /tools/
+└── _headers                   Header-Konfiguration (Cloudflare wertet das im Worker-Assets-Modus aus)
 ```
+
+Kein `_redirects` mehr nötig: `/assets/img/src/` und `/tools/` werden über
+`.assetsignore` erst gar nicht mit hochgeladen, ein manueller 404-Redirect
+dafür entfällt. (Der alte Trick mit Status-Code 404 als "custom 404 ohne
+echte Weiterleitung" stammt aus klassischem Pages-Routing und wird vom
+strengeren `_redirects`-Parser im Worker-Assets-Modus abgelehnt – nur
+200/301/302/303/307/308 sind dort gültig.)
 
 Die Website selbst bleibt bei 0 Byte JavaScript im Browser und 0 externen Requests
 vom Client aus. Das Anfrageformular ist ein normales HTML-`<form>` (funktioniert
