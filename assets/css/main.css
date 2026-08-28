@@ -232,7 +232,7 @@ strong, b { font-weight: 600; }
   flex: 0 0 auto;
 }
 .marke img {
-  width: 72px; height: 72px;
+  width: 160px; height: 160px;
   border-radius: 50%;
   background: var(--sand);
   flex: 0 0 auto;
@@ -883,7 +883,7 @@ dd.mit-icon { color: var(--nacht); font-weight: 600; }
   .kopf { position: static; }
   .kopf__inner { flex-wrap: wrap; row-gap: 0.6rem; }
   .nav { margin-left: 0; width: 100%; gap: 0.85rem 1.1rem; font-size: 0.92rem; }
-  .marke img { width: 64px; height: 64px; }
+  .marke img { width: 110px; height: 110px; }
   .marke { min-width: 0; }
   .marke__name { min-width: 0; }
   .marke__zusatz { font-size: 0.62rem; letter-spacing: 0.1em; }
@@ -896,7 +896,7 @@ dd.mit-icon { color: var(--nacht); font-weight: 600; }
   .hero__panel { padding: 1.15rem; }
   .btn { padding: 0.85rem 1.15rem; font-size: 0.95rem; }
   .marke__zusatz { display: none; }
-  .marke img { width: 56px; height: 56px; }
+  .marke img { width: 92px; height: 92px; }
   .kopf__inner { gap: 0.75rem; }
 }
 
